@@ -6,7 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <img src="/assets/logo.png" alt="Loker Oku Timur" class="block h-9 w-auto fill-current text-gray-800">
+                        {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> --}}
                     </a>
                 </div>
 
@@ -77,7 +78,7 @@
             @else
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
-                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                <a href="{{ route('register') }}" class="ml-10 text-sm text-gray-700 underline">Register</a>
             </div>
             @endauth
 

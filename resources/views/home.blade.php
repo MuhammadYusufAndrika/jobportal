@@ -8,7 +8,8 @@
     <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto text-center">
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Temukan Karir Terbaik di <span class="text-yellow-300">Oku Timur</span>
+                Temukan Karir Terbaik di 
+                <div class="text-yellow-300">Oku Timur</div>
             </h1>
             <p class="text-xl md:text-2xl text-blue-100 mb-8">
                 Portal resmi lowongan kerja Kabupaten Ogan Komering Ulu Timur. 
