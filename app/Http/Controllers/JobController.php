@@ -8,6 +8,7 @@ use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
 {
@@ -95,7 +96,8 @@ class JobController extends Controller
 
         if ($job->application_form) {
             foreach ($job->application_form as $field) {
-                $fieldName = 'form_data.' . str_replace(' ', '_', strtolower($field['label']));
+                $fieldKey = str_replace(' ', '_', strtolower($field['label']));
+                $fieldName = 'form_data.' . $fieldKey;
 
                 if ($field['required']) {
                     $rules[$fieldName] = 'required';
@@ -113,9 +115,17 @@ class JobController extends Controller
             }
         }
 
+        // Debug: Log the request to see what's being sent
+        Log::info('Application Request Data:', [
+            'all_data' => $request->all(),
+            'files' => $request->allFiles(),
+            'form_data' => $request->input('form_data', [])
+        ]);
+
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+            Log::error('Validation failed:', $validator->errors()->toArray());
             return back()->withErrors($validator)->withInput();
         }
 
@@ -125,17 +135,38 @@ class JobController extends Controller
                 $fieldKey = str_replace(' ', '_', strtolower($field['label']));
                 $fieldName = 'form_data.' . $fieldKey;
 
-                if ($field['type'] === 'file' && $request->hasFile($fieldName)) {
-                    // Store file in storage/app/public/applications
-                    $file = $request->file($fieldName);
-                    $filename = time() . '_' . $fieldKey . '_' . $file->getClientOriginalName();
-                    $path = $file->storeAs('applications', $filename, 'public');
-                    $formData[$fieldKey] = $path;
+                if ($field['type'] === 'file') {
+                    // Check if file was uploaded
+                    if ($request->hasFile($fieldName)) {
+                        $file = $request->file($fieldName);
+
+                        // Validate file
+                        if ($file->isValid()) {
+                            // Store file in storage/app/public/applications
+                            $filename = time() . '_' . $fieldKey . '_' . $file->getClientOriginalName();
+                            $path = $file->storeAs('applications', $filename, 'public');
+                            $formData[$fieldKey] = $path;
+
+                            Log::info("File uploaded successfully: {$filename} -> {$path}");
+                        } else {
+                            Log::error("Invalid file upload for field: {$fieldKey}");
+                            return back()->with('error', 'File upload failed. Please try again.');
+                        }
+                    } elseif ($field['required']) {
+                        Log::error("Required file missing for field: {$fieldKey}");
+                        return back()->with('error', "Please upload a file for {$field['label']}.");
+                    } else {
+                        // Optional file field, no file uploaded
+                        $formData[$fieldKey] = null;
+                    }
                 } else {
+                    // Non-file field
                     $formData[$fieldKey] = $request->input($fieldName);
                 }
             }
         }
+
+        Log::info('Processed form data:', $formData);
 
         // Create the application
         Application::create([

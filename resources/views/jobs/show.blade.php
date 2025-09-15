@@ -84,11 +84,97 @@
                     <div class="bg-gray-50 rounded-lg p-6">
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">Lamar Pekerjaan Ini</h2>
                         
+                        @if($errors->any())
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <div>
+                                        <h3 class="text-sm font-medium text-red-800 mb-2">Terjadi kesalahan:</h3>
+                                        <ul class="text-sm text-red-700 list-disc list-inside space-y-1">
+                                            @foreach($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(session('success'))
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 text-green-400 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <p class="text-sm font-medium text-green-800">{{ session('success') }}</p>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(session('error'))
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <p class="text-sm font-medium text-red-800">{{ session('error') }}</p>
+                                </div>
+                            </div>
+                        @endif
+                        
+                        {{-- Success Message --}}
+                        @if(session('success'))
+                            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ session('success') }}
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Error Messages --}}
+                        @if(session('error'))
+                            <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ session('error') }}
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($errors->any())
+                            <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                <div class="flex">
+                                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="font-medium">Terjadi kesalahan:</p>
+                                        <ul class="mt-1 list-disc list-inside">
+                                            @foreach($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        
                         @if($job->application_form && count($job->application_form) > 0)
                             <form method="POST" action="{{ route('jobs.apply', $job) }}" enctype="multipart/form-data" class="space-y-4">
                                 @csrf
                                 
                                 @foreach($job->application_form as $field)
+                                    @php
+                                        $fieldKey = str_replace(' ', '_', strtolower($field['label']));
+                                        $fieldName = 'form_data.' . $fieldKey;
+                                    @endphp
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
                                             {{ $field['label'] }}
@@ -101,40 +187,48 @@
                                             @case('text')
                                             @case('email')
                                                 <input type="{{ $field['type'] }}" 
-                                                       name="form_data[{{ $loop->index }}]" 
+                                                       name="{{ $fieldName }}" 
                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                       {{ ($field['required'] ?? false) ? 'required' : '' }}>
+                                                       {{ ($field['required'] ?? false) ? 'required' : '' }}
+                                                       value="{{ old($fieldName) }}">
                                                 @break
                                             
                                             @case('number')
                                                 <input type="number" 
-                                                       name="form_data[{{ $loop->index }}]" 
+                                                       name="{{ $fieldName }}" 
                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                       {{ ($field['required'] ?? false) ? 'required' : '' }}>
+                                                       {{ ($field['required'] ?? false) ? 'required' : '' }}
+                                                       value="{{ old($fieldName) }}">
                                                 @break
                                             
                                             @case('textarea')
-                                                <textarea name="form_data[{{ $loop->index }}]" 
+                                                <textarea name="{{ $fieldName }}" 
                                                           rows="4" 
                                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                          {{ ($field['required'] ?? false) ? 'required' : '' }}></textarea>
+                                                          {{ ($field['required'] ?? false) ? 'required' : '' }}>{{ old($fieldName) }}</textarea>
                                                 @break
                                             
                                             @case('file')
                                                 <input type="file" 
-                                                       name="form_data[{{ $loop->index }}]" 
-                                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                       name="{{ $fieldName }}" 
+                                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                                                        {{ ($field['required'] ?? false) ? 'required' : '' }}>
+                                                <p class="mt-1 text-xs text-gray-500">
+                                                    Format yang diterima: PDF, DOC, DOCX, JPG, JPEG, PNG (Max: 10MB)
+                                                </p>
                                                 @break
                                             
                                             @case('select')
-                                                <select name="form_data[{{ $loop->index }}]" 
+                                                <select name="{{ $fieldName }}" 
                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                         {{ ($field['required'] ?? false) ? 'required' : '' }}>
-                                                    <option value="">Pilih...</option>
+                                                    <option value="">1h...</option>
                                                     @if(isset($field['options']))
                                                         @foreach(explode(',', $field['options']) as $option)
-                                                            <option value="{{ trim($option) }}">{{ trim($option) }}</option>
+                                                            <option value="{{ trim($option) }}" {{ old($fieldName) == trim($option) ? 'selected' : '' }}>
+                                                                {{ trim($option) }}
+                                                            </option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -146,9 +240,10 @@
                                                         @foreach(explode(',', $field['options']) as $option)
                                                             <label class="flex items-center">
                                                                 <input type="radio" 
-                                                                       name="form_data[{{ $loop->parent->index }}]" 
+                                                                       name="{{ $fieldName }}" 
                                                                        value="{{ trim($option) }}" 
                                                                        class="mr-2"
+                                                                       {{ old($fieldName) == trim($option) ? 'checked' : '' }}
                                                                        {{ ($field['required'] ?? false) ? 'required' : '' }}>
                                                                 {{ trim($option) }}
                                                             </label>
@@ -163,9 +258,10 @@
                                                         @foreach(explode(',', $field['options']) as $option)
                                                             <label class="flex items-center">
                                                                 <input type="checkbox" 
-                                                                       name="form_data[{{ $loop->parent->index }}][]" 
+                                                                       name="{{ $fieldName }}[]" 
                                                                        value="{{ trim($option) }}" 
-                                                                       class="mr-2">
+                                                                       class="mr-2"
+                                                                       {{ in_array(trim($option), old($fieldName, [])) ? 'checked' : '' }}>
                                                                 {{ trim($option) }}
                                                             </label>
                                                         @endforeach
@@ -173,16 +269,43 @@
                                                 @endif
                                                 @break
                                         @endswitch
+                                        
+                                        @error($fieldName)
+                                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 @endforeach
                                 
                                 <div class="pt-4">
                                     <button type="submit" 
-                                            class="w-full bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-200 font-medium">
-                                        Kirim Lamaran
+                                            id="submitBtn"
+                                            class="w-full bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-200 font-medium flex items-center justify-center">
+                                        <span id="submitText">Kirim Lamaran</span>
+                                        <svg id="loadingIcon" class="hidden animate-spin -mr-1 ml-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
                                     </button>
                                 </div>
                             </form>
+                            
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const form = document.querySelector('form[action*="apply"]');
+                                const submitBtn = document.getElementById('submitBtn');
+                                const submitText = document.getElementById('submitText');
+                                const loadingIcon = document.getElementById('loadingIcon');
+                                
+                                if (form && submitBtn) {
+                                    form.addEventListener('submit', function() {
+                                        submitBtn.disabled = true;
+                                        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                                        submitText.textContent = 'Mengirim...';
+                                        loadingIcon.classList.remove('hidden');
+                                    });
+                                }
+                            });
+                            </script>
                         @else
                             <form method="POST" action="{{ route('jobs.apply', $job) }}">
                                 @csrf
