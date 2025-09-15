@@ -97,7 +97,7 @@ class JobController extends Controller
         if ($job->application_form) {
             foreach ($job->application_form as $field) {
                 $fieldKey = str_replace(' ', '_', strtolower($field['label']));
-                $fieldName = 'form_data.' . $fieldKey;
+                $fieldName = 'form_data_' . $fieldKey; // Changed from dot notation to underscore
 
                 if ($field['required']) {
                     $rules[$fieldName] = 'required';
@@ -133,7 +133,7 @@ class JobController extends Controller
         if ($job->application_form) {
             foreach ($job->application_form as $field) {
                 $fieldKey = str_replace(' ', '_', strtolower($field['label']));
-                $fieldName = 'form_data.' . $fieldKey;
+                $fieldName = 'form_data_' . $fieldKey; // Changed from dot notation to underscore
 
                 if ($field['type'] === 'file') {
                     // Check if file was uploaded

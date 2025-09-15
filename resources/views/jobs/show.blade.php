@@ -173,7 +173,7 @@
                                 @foreach($job->application_form as $field)
                                     @php
                                         $fieldKey = str_replace(' ', '_', strtolower($field['label']));
-                                        $fieldName = 'form_data.' . $fieldKey;
+                                        $fieldName = 'form_data_' . $fieldKey; // Changed from dot notation to underscore
                                     @endphp
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -223,7 +223,7 @@
                                                 <select name="{{ $fieldName }}" 
                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                         {{ ($field['required'] ?? false) ? 'required' : '' }}>
-                                                    <option value="">1h...</option>
+                                                    <option value="">Pilih...</option>
                                                     @if(isset($field['options']))
                                                         @foreach(explode(',', $field['options']) as $option)
                                                             <option value="{{ trim($option) }}" {{ old($fieldName) == trim($option) ? 'selected' : '' }}>
