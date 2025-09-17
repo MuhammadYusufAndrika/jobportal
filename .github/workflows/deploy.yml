@@ -33,3 +33,10 @@ jobs:
           protocol: ftps   # bisa diganti sftp kalau mau pakai SFTP
           local-dir: ./    # folder lokal yang dikirim
           server-dir: /public_html/   # folder tujuan di hosting
+          exclude: |
+            **/.git*
+            **/.github*
+            **/node_modules/**
+            **/tests/**
+            **/*.md
+        
