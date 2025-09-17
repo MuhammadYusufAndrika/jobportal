@@ -21,7 +21,6 @@ class JobSeeder extends Seeder
             return;
         }
 
-        
         $jobs = [
             [
                 'title' => 'Staff Administrasi',
