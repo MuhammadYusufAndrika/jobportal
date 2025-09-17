@@ -27,7 +27,8 @@ class CompanyPanelProvider extends PanelProvider
             ->path('company')
             ->login()
             ->brandName('Loker Oku Timur - Company Dashboard')
-            ->brandLogo(asset('images/logo.png'))
+            ->brandLogo(asset('/assets/logo.png'))
+            // ->brandUrl(route('home'))
             ->colors([
                 'primary' => Color::Blue,
             ])

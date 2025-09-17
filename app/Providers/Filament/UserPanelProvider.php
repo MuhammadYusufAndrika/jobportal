@@ -27,7 +27,8 @@ class UserPanelProvider extends PanelProvider
             ->path('user')
             ->login()
             ->brandName('Loker Oku Timur - My Applications')
-            ->brandLogo(asset('images/logo.png'))
+            ->brandLogo(asset('/assets/logo.png'))
+            // ->brandUrl(route('home'))
             ->colors([
                 'primary' => Color::Green,
             ])
