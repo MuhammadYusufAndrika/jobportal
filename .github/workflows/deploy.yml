@@ -1,0 +1,35 @@
+name: jobportal
+
+on:
+  push:
+    branches:
+      - main   # deploy setiap kali push ke branch main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup PHP + install dependency
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, intl, gd
+
+      - name: Install Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      # Deploy via FTP
+      - name: Deploy ke Hosting
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          protocol: ftps   # bisa diganti sftp kalau mau pakai SFTP
+          local-dir: ./    # folder lokal yang dikirim
+          server-dir: /public_html/   # folder tujuan di hosting
