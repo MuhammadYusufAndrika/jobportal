@@ -46,34 +46,28 @@ class ApplicationResource extends Resource
                     ->preload()
                     ->disabled(), // Companies shouldn't change the applicant
 
-                Forms\Components\KeyValue::make('form_data')
-                    ->label('Application Data')
-                    ->keyLabel('Field')
-                    ->valueLabel('Response')
-                    ->columnSpanFull()
-                    ->disabled() // This is the applicant's data, read-only
-                    ->formatStateUsing(function ($state) {
-                        if (!$state) return [];
+                Forms\Components\Section::make('Application Data')
+                    ->schema([
+                        Forms\Components\View::make('filament.forms.components.application-data')
+                            ->viewData(function ($record) {
+                                $formData = $record->form_data ?? [];
+                                $formattedData = [];
 
-                        $formatted = [];
-                        foreach ($state as $key => $value) {
-                            if (is_string($value) && str_starts_with($value, 'applications/')) {
-                                // This is a file path
-                                $fileName = basename($value);
-                                $fileUrl = Storage::url($value);
-                                $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-
-                                if (in_array(strtolower($fileExtension), ['pdf', 'doc', 'docx'])) {
-                                    $formatted[$key] = "📄 <a href='{$fileUrl}' target='_blank' style='color: #3b82f6; text-decoration: underline; font-weight: 500;'>{$fileName}</a> <span style='color: #6b7280; font-size: 0.875rem;'>(Click to view)</span>";
-                                } else {
-                                    $formatted[$key] = "📎 <a href='{$fileUrl}' target='_blank' style='color: #3b82f6; text-decoration: underline; font-weight: 500;'>{$fileName}</a>";
+                                foreach ($formData as $key => $value) {
+                                    $formattedData[] = [
+                                        'field' => ucwords(str_replace('_', ' ', $key)),
+                                        'value' => $value,
+                                        'is_file' => is_string($value) && str_starts_with($value, 'applications/'),
+                                        'file_url' => is_string($value) && str_starts_with($value, 'applications/') ? Storage::url($value) : null,
+                                        'file_name' => is_string($value) && str_starts_with($value, 'applications/') ? basename($value) : null,
+                                        'file_extension' => is_string($value) && str_starts_with($value, 'applications/') ? pathinfo(basename($value), PATHINFO_EXTENSION) : null,
+                                    ];
                                 }
-                            } else {
-                                $formatted[$key] = is_array($value) ? implode(', ', $value) : $value;
-                            }
-                        }
-                        return $formatted;
-                    }),
+
+                                return ['application_data' => $formattedData];
+                            })
+                    ])
+                    ->columnSpanFull(),
 
                 Forms\Components\Select::make('status')
                     ->options([
