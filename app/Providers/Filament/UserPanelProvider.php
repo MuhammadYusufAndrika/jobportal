@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -28,7 +29,6 @@ class UserPanelProvider extends PanelProvider
             ->login()
             ->brandName('Loker Oku Timur - My Applications')
             ->brandLogo(asset('/assets/logo.png'))
-            // ->brandUrl(route('home'))
             ->colors([
                 'primary' => Color::Green,
             ])
@@ -57,6 +57,10 @@ class UserPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->authGuard('web');
+            ->authGuard('web')
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn(): string => view('filament.components.clickable-logo')->render()
+            );
     }
 }
